@@ -2,15 +2,15 @@
 
 
 from src.User import User 
-from src.Flights import Flights
-from src.Skyscanner import Skyscanner
-from src.PaymentData import PaymentData
+from ..src.Flights import Flights
+from ..src.Skyscanner import Skyscanner 
+from ..src.PaymentData import PaymentData
 
 
 
-#from src.User import User
-#from src.Flights import Flights
-#from src.Skyscanner import Skyscanner
+#from ..src.User import User
+#from ..src.Flights import Flights
+#from ..src.Skyscanner import Skyscanner
 
 
 
@@ -75,28 +75,19 @@ def Test_Viaje_Precio_Cero():
     assert user1.datosPago.get_coste_viaje() == 0 # coste de viaje 0
     print("Test_Viaje_Precio_Cero ok")
 
-def Test_destinos_esperados():
+def Test_destinos_vuelos_esperados():
 
     lDestinacion_vuelos = ["Metropolis", "Dinamarcia", "Suecia"]
     lCodigo_vuelos = [741, 852 , 963]
     num_pasajeros = 3
 
     lVuelos = Flights(lCodigo=lCodigo_vuelos, lDestiancion=lDestinacion_vuelos, num_pasajeros=num_pasajeros)
+    lVuelos
 
-    print(lVuelos.get_vuelos())
-    assert lVuelos.get_destinos() == lDestinacion_vuelos
-
-def Test_vuelos_esperados():
-    lDestinacion_vuelos = ["Metropolis", "Dinamarcia", "Suecia"]
-    lCodigo_vuelos = [741, 852, 963]
-    num_pasajeros = 3
-
-    lVuelos = Flights(lCodigo=lCodigo_vuelos, lDestiancion=lDestinacion_vuelos, num_pasajeros=num_pasajeros)
-
-
-    assert lVuelos.get_vuelos()  == lCodigo_vuelos
-
-    print("Test_vuelos_esperados ok ")
+    assert lVuelos.get_vuelos == lDestinacion_vuelos
+    
+    
+    print("Test_destinos_vuelos_esperados ok ")
 
 def Test_Viaje_Precio_Esperado():
     datosPago = PaymentData("VISA", nombres[0], numTarjeta, cvv, costeViaje)
@@ -115,8 +106,7 @@ Test_Viaje_Numero_pasajeros()
 Test_Viase_Sin_Destinos()
 Test_Viase_Sin_Vuelos()
 Test_Viaje_Precio_Cero()
-Test_destinos_esperados()
-Test_vuelos_esperados()
+Test_destinos_vuelos_esperados()
 
 Test_Viaje_Precio_Esperado()
 

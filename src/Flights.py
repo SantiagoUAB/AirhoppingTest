@@ -8,6 +8,10 @@ class Flights:
     def get_num_pasajeros(self)-> int:
         return self.num_pasajeros
 
+    def add_vuelo (self):
+
+        return True
+        pass
     
     def existen_Destinos(self) -> bool:
         if len(self.lDestiancion) <= 0:

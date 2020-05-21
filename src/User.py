@@ -6,7 +6,7 @@ class User:
         self.nombre = nombre
         self.apellidos = apellidos
         self.DNI = DNI
-        self.datosPago = datosPago
+        self.datosPago = datosPago # dades va separades
     
     def get_coste_viaje(self) -> float:
         return  self.datosPago.get_coste_viaje()
