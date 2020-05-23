@@ -22,6 +22,7 @@ class TestCars(unittest.TestCase):
         self.coches.crear_coche(1234,'Mercedes','Avenida hola', 2,50)
         self.car = Cars()
         self.car.añadir_coche(self.coches)
+
     def test_viaje_añadir_vehiculo_precio(self):
         self.coches.crear_coche(1225,'Citroen','Calle Eureka', 5,25)
         self.car.añadir_coche(self.coches)
@@ -33,5 +34,6 @@ class TestCars(unittest.TestCase):
         self.assertEqual(2,len(self.car.list_coches))
         self.car.eliminar_coche(self.coches)
         self.assertEqual(50,self.car.get_precio_total())
+
 if __name__ == '__main__':
     unittest.main(exit=False)
