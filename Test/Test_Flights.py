@@ -52,7 +52,7 @@ class TestFlights(unittest.TestCase):
         lVuelos = Flights()
         self.assertFalse(lVuelos.existen_Destinos())
 
-    def test_Viase_Sin_Vuelos(self):
+    def test_viaje_Sin_Vuelos(self):
 
         lVuelos = Flights()
 
