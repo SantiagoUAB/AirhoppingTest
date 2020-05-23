@@ -1,9 +1,10 @@
 class Factura:
 
-    def __init__(self, dictDestinos = dict(), num_pasajeros=0):
+    def __init__(self, num_pasajeros=0,  dictDestinos = dict(), dictVehiculos={} ):
 
         self.num_pasajeros = num_pasajeros
         self.dictDestinos = dictDestinos
+        self.dictVehiculo = dictVehiculos
 
 
     def set_num_pasajeros(self, num_pasajeros):

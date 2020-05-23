@@ -1,4 +1,7 @@
-import unittest
+import sys, os
+myPath = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, myPath + '/../')
+
 from unittest.mock import patch
 
 from src.User import User
@@ -31,14 +34,14 @@ lCodigo_vuelos = [741, 852, 963]
 num_pasajeros = 3
 
 
-def Test_Viaje_Numero_pasajeros():
+def test_Viaje_Numero_pasajeros():
     lVuelos = Flights(num_pasajeros = 3)
 
     assert lVuelos.get_num_pasajeros() == 3  # numero de paajeros esperados
     print("Test_Viaje_Numero_pasajeros ok")
 
 
-def Test_Viase_Sin_Destinos():
+def test_Viase_Sin_Destinos():
 
     lVuelos = Flights()
     assert lVuelos.existen_Destinos() == False
@@ -78,51 +81,10 @@ def Test_vuelos_esperados():
     print("Test_vuelos_esperados ok ")
 
 
-def test_precio_cero():
-
-    importe = 0
-    datosPago = PaymentData(importe=importe)
-
-    assert datosPago.datosPago.get_importe() == 0  # coste de viaje 0
-    print("Test_Viaje_Precio_Cero ok")
 
 
-def Test_precio_viaje_esperado() -> None:
-
-    importe = 0
-    num_pasajeros = 3
-    datosPago = PaymentData("VISA", nombres[0], numTarjeta, cvv, importe)
-
-    lPrecios = [30, 30, 30]
-    for precioDestino in lPrecios:
-        datosPago.add_importe(precioDestino * num_pasajeros)
-    importeEsperado = sum(lPrecios) * num_pasajeros
-
-    assert datosPago.get_importe() == importeEsperado
-    print("Test_precio_viaje_esperado ok")
 
 
-def Test_precio_viaje_esperado_nuevos_destinos() -> None:
-    importe = 0
-    num_pasajeros = 3
-    datosPago = PaymentData("VISA", nombres[0], numTarjeta, cvv, importe)
-
-    lPrecios = [30, 30, 30]
-    # se sumna el coste de cada destino en funcion del numero de pasajeos
-    for precioDestino in lPrecios:
-        datosPago.add_importe(precioDestino * num_pasajeros)
-
-    # se suman 2 nuevos destinos
-    datosPago.add_importe(30 * num_pasajeros)
-    datosPago.add_importe(30 * num_pasajeros)
-
-    lPrecios.append(30)
-    lPrecios.append(30)
-
-    importeEsperado = sum(lPrecios) * num_pasajeros
-
-    assert datosPago.get_importe() == importeEsperado
-    print("Test_precio_viaje_esperado_nuevos_destinos ok")
 
 
 def Test_viaje_eliminar_destinos() -> None:
@@ -221,14 +183,14 @@ def Test_conrimrar_reserva_error():
     print("Test_conrimrar_reserva_error")
 
 
-Test_Viaje_Numero_pasajeros()
-Test_Viase_Sin_Destinos()
+test_Viaje_Numero_pasajeros()
+test_Viase_Sin_Destinos()
 Test_Viase_Sin_Vuelos()
 Test_Viaje_Precio_Cero()
 Test_destinos_esperados()
 Test_vuelos_esperados()
-Test_precio_viaje_esperado()
-Test_precio_viaje_esperado_nuevos_destinos()
+
+
 Test_viaje_eliminar_destinos()
 Test_viaje_eliminar_vuelos()
 Test_precio_viaje_esperado_eliminar_destinos()
