@@ -13,12 +13,12 @@ class TestBank(unittest.TestCase):
 
     def test_pago(self):
 
-
         with patch('src.Bank') as mock_Bank:
 
             mock_Bank.do_payment.return_value = True
             assert mock_Bank.do_payment() == True
-            print("Test_pago_incorrecto ok")
+            self.assertTrue(mock_Bank.do_payment())
+
 
     def test_metodo_pago(self):
 

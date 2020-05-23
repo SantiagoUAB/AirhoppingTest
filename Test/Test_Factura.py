@@ -19,6 +19,7 @@ class TestFactura(unittest.TestCase):
         self.num_pasajeros = 3
 
 
+
     def test_precio_cero(self):
 
         factura = Factura()
