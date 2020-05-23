@@ -9,9 +9,11 @@ class Cars:
 
     def get_precio_total(self):
         return self.precio_total
+
     def añadir_coche(self, Coche):
         self.list_coches.append(Coche)
         self.precio_total = self.precio_total + Coche.precio
+
     def eliminar_coche(self,Coche):
         condi = False
         if Coche in self.list_coches:

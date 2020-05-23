@@ -11,11 +11,6 @@ from src.Skyscanner import Skyscanner
 
 class TestSkyscanner(unittest.TestCase):
 
-    @classmethod
-    def setUpClass(self) -> None:
-        skyscanner = Skyscanner()
-
-
     def test_reserva_correcta(self):
 
         with patch('src.Skyscanner') as mock:

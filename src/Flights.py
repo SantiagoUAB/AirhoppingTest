@@ -8,6 +8,9 @@ class Flights:
         self.lDestiancions = lDestiancions
         self.num_pasajeros = num_pasajeros
 
+        self.dictDestinos = {}
+        self.importe = 0
+
     def set_num_pasajeros(self, num_pasajeros: int) -> None:
         self.num_pasajeros = num_pasajeros
 
@@ -19,12 +22,6 @@ class Flights:
 
     def eliminar_vuelo(self, codigo_vuelo: int):
         self.lCodios.remove(codigo_vuelo)
-
-    def add_destino(self, destino: str) -> None:
-        self.lDestiancions.append(destino)
-
-    def eliminar_destino(self, destino :str) -> None:
-        self.lDestiancions.remove(destino)
 
     def existen_Destinos(self) -> bool:
         if len(self.lDestiancions) <= 0:
@@ -38,7 +35,21 @@ class Flights:
             return True
 
     def get_destinos(self) -> list:
-        return self.lDestiancions
+        return list(self.dictDestinos.keys())
 
     def get_vuelos(self):
         return self.lCodios
+
+    def add_destino(self, destino, importe):
+
+        self.dictDestinos[str(destino)] = importe
+
+    def eliminar_destino(self, destino):
+        del self.dictDestinos[destino]
+
+    def get_total(self):
+        total = 0
+        for importe in self.dictDestinos.values():
+            total = total + (importe * self.num_pasajeros)
+
+        return total

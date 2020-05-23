@@ -24,7 +24,7 @@ class TestFlights(unittest.TestCase):
         self.cvv = 117  # codigo seguridad tarjeta
         self.costeViaje = 0
 
-        self.datosPago = PaymentData("VISA", self.nombres[0], self.numTarjeta, self.cvv, self.costeViaje)
+
 
         self.num_pasajeros = 3
         self.num_destinos_eliminar = 2
@@ -33,6 +33,14 @@ class TestFlights(unittest.TestCase):
 
         self.lDestinos_eliminar = self.lDestinacion_vuelos[:self.num_destinos_eliminar]
         self.lCodigos_vuelo_eliminar = self.lCodigo_vuelos[:self.num_destinos_eliminar]
+
+        self.lDestinacion_vuelos = ["Metropolis", "Dinamarcia", "Suecia"]
+        self.lPrecios = [30, 30, 30]
+
+        self.lNuevos_destinos = ["Grieta", "Luxemburgo"]
+        self.lNuevos_precios = [30, 30]
+
+
 
     def test_Viaje_Numero_pasajeros(self):
         lVuelos = Flights(num_pasajeros=self.num_pasajeros)
@@ -53,7 +61,10 @@ class TestFlights(unittest.TestCase):
 
     def test_destinos_esperados(self):
 
-        lVuelos = Flights(lDestiancions=self.lDestinacion_vuelos)
+        lVuelos = Flights()
+
+        for destino in self.lDestinacion_vuelos:
+            lVuelos.add_destino(destino, 0)
 
         assert lVuelos.get_destinos() == self.lDestinacion_vuelos
 
@@ -69,7 +80,7 @@ class TestFlights(unittest.TestCase):
         lVuelos = Flights(num_pasajeros=self.num_pasajeros)
 
         for destino in self.lDestinacion_vuelos:
-            lVuelos.add_destino(destino)
+            lVuelos.add_destino(destino, 0)
 
         for destinoEliminar in self.lDestinos_eliminar:
             lVuelos.eliminar_destino(destinoEliminar)
@@ -91,9 +102,54 @@ class TestFlights(unittest.TestCase):
         self.assertEqual( lVuelos.get_vuelos(), [963])
 
 
+    def test_destinos_precio_cero(self):
 
+        vuelos = Flights()
 
+        self.assertEqual(vuelos.get_total(), 0)  # coste de viaje 0
 
+    def test_precio_viaje_esperado(self) -> None:
+
+        vuelos = Flights(num_pasajeros=self.num_pasajeros)
+
+        for destino, precio in zip(self.lDestinacion_vuelos, self.lPrecios):
+            vuelos.add_destino(destino, precio)
+        #calcular importe esperado
+        importeEsperado = sum(self.lPrecios) * self.num_pasajeros
+
+        assert vuelos.get_total() == importeEsperado
+
+    def test_precio_viaje_esperado_nuevos_destinos(self) -> None:
+
+        vuelos = Flights(num_pasajeros=self.num_pasajeros)
+
+        for destino, precio in zip(self.lDestinacion_vuelos, self.lPrecios):
+            vuelos.add_destino(destino, precio)
+
+        for destino, precio in zip(self.lNuevos_destinos, self.lNuevos_precios):
+            vuelos.add_destino(destino, precio)
+
+        importeEsperado = sum(self.lPrecios) * self.num_pasajeros + sum(self.lNuevos_precios) * self.num_pasajeros
+        assert vuelos.get_total() == importeEsperado
+
+    def test_precio_viaje_esperado_eliminar_destinos(self) -> None:  # volveremos
+
+        vuelos = Flights(num_pasajeros=self.num_pasajeros)
+
+        for destino, precio in zip(self.lDestinacion_vuelos, self.lPrecios):
+            vuelos.add_destino(destino, precio)
+
+        # se elimian 2 destinos
+        vuelos.eliminar_destino("Dinamarcia")
+        vuelos.eliminar_destino("Suecia")
+
+        # se descuetnan 2 destinos en el valor esperado
+        lPrecios = [30, 0, 0]
+        importeEsperado = sum(lPrecios) * self.num_pasajeros
+
+        assert vuelos.get_total() == importeEsperado
+
+        print("Test_precio_viaje_esperado_eliminar_destinos")
 
 if __name__ == '__main__':
     unittest.main()
