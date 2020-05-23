@@ -19,7 +19,6 @@ class TestBank(unittest.TestCase):
             assert mock_Bank.do_payment() == True
             self.assertTrue(mock_Bank.do_payment())
 
-
     def test_metodo_pago(self):
 
         # datos usuario
