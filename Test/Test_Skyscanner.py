@@ -5,6 +5,8 @@ from src.User import User
 from src.Flights import Flights
 from src.Skyscanner import Skyscanner
 from src.PaymentData import PaymentData
+from src.Factura import Factura
+
 
 # from src.User import User
 # from src.Flights import Flights
@@ -30,79 +32,70 @@ num_pasajeros = 3
 
 
 def Test_Viaje_Numero_pasajeros():
-    lVuelos = Flights(lCodigo_vuelos, lDestinacion_vuelos, 3)
+    lVuelos = Flights(num_pasajeros = 3)
 
     assert lVuelos.get_num_pasajeros() == 3  # numero de paajeros esperados
     print("Test_Viaje_Numero_pasajeros ok")
 
 
 def Test_Viase_Sin_Destinos():
-    user1 = User(nombres[0], apellidos[0], DNI[0])
 
-    lDestinacion_vuelos = []
-    lVuelos = Flights(lCodigo_vuelos, lDestinacion_vuelos, 3)
-
+    lVuelos = Flights()
     assert lVuelos.existen_Destinos() == False
     print("Test_Viase_Sin_Destinos ok")
 
 
 def Test_Viase_Sin_Vuelos():
-    user1 = User(nombres[0], apellidos[0], DNI[0])
-    lCodigo_vuelos = []
 
-    lVuelos = Flights(lCodigo_vuelos, lDestinacion_vuelos, 3)
+    lVuelos = Flights()
 
     assert lVuelos.existen_Vuelos() == False
     print("Test_Viase_Sin_Vuelos ok")
 
 
 def Test_Viaje_Precio_Cero():
-    datosPago = PaymentData("VISA", nombres[0], numTarjeta, cvv, costeViaje)
-
+    datosPago = PaymentData()
 
     assert datosPago.get_importe() == 0  # coste de viaje 0
     print("Test_Viaje_Precio_Cero ok")
 
 
 def Test_destinos_esperados():
-    lDestinacion_vuelos = ["Metropolis", "Dinamarcia", "Suecia"]
-    lCodigo_vuelos = [741, 852, 963]
-    num_pasajeros = 3
 
-    lVuelos = Flights(lCodigos=lCodigo_vuelos, lDestiancions=lDestinacion_vuelos, num_pasajeros=num_pasajeros)
+    lDestinacion_vuelos = ["Metropolis", "Dinamarcia", "Suecia"]
+    lVuelos = Flights(lDestiancions=lDestinacion_vuelos)
 
     assert lVuelos.get_destinos() == lDestinacion_vuelos
+    print("Test_destinos_esperados ok")
 
 
 def Test_vuelos_esperados():
-    lDestinacion_vuelos = ["Metropolis", "Dinamarcia", "Suecia"]
-    lCodigo_vuelos = [741, 852, 963]
-    num_pasajeros = 3
 
-    lVuelos = Flights(lCodigos=lCodigo_vuelos, lDestiancions=lDestinacion_vuelos, num_pasajeros=num_pasajeros)
+    lCodigo_vuelos = [741, 852, 963]
+    lVuelos = Flights(lCodigos=lCodigo_vuelos)
 
     assert lVuelos.get_vuelos() == lCodigo_vuelos
-
     print("Test_vuelos_esperados ok ")
 
 
-def Test_Viaje_Precio_Esperado():
-    importe = 0
-    datosPago = PaymentData("VISA", nombres[0], numTarjeta, cvv, importe)
-    user1 = User(nombres[0], apellidos[0], DNI[0], datosPago)
+def test_precio_cero():
 
-    assert user1.datosPago.get_importe() == 0  # coste de viaje 0
+    importe = 0
+    datosPago = PaymentData(importe=importe)
+
+    assert datosPago.datosPago.get_importe() == 0  # coste de viaje 0
     print("Test_Viaje_Precio_Cero ok")
 
 
 def Test_precio_viaje_esperado() -> None:
+
     importe = 0
     num_pasajeros = 3
     datosPago = PaymentData("VISA", nombres[0], numTarjeta, cvv, importe)
 
     lPrecios = [30, 30, 30]
     for precioDestino in lPrecios:
-        datosPago.add_coste_destino(precioDestino * num_pasajeros)
+        datosPago.add_importe(precioDestino * num_pasajeros)
     importeEsperado = sum(lPrecios) * num_pasajeros
 
     assert datosPago.get_importe() == importeEsperado
@@ -117,11 +110,11 @@ def Test_precio_viaje_esperado_nuevos_destinos() -> None:
     lPrecios = [30, 30, 30]
     # se sumna el coste de cada destino en funcion del numero de pasajeos
     for precioDestino in lPrecios:
-        datosPago.add_coste_destino(precioDestino * num_pasajeros)
+        datosPago.add_importe(precioDestino * num_pasajeros)
 
     # se suman 2 nuevos destinos
-    datosPago.add_coste_destino(30 * num_pasajeros)
-    datosPago.add_coste_destino(30 * num_pasajeros)
+    datosPago.add_importe(30 * num_pasajeros)
+    datosPago.add_importe(30 * num_pasajeros)
 
     lPrecios.append(30)
     lPrecios.append(30)
@@ -143,9 +136,10 @@ def Test_viaje_eliminar_destinos() -> None:
     for destino in lDestinacion_vuelos:
         lVuelos.add_destino(destino)
 
+
     # eliminar de listado de vuelos
-    lVuelos.eliminar_destino(lDestinacion_vuelos[0])
-    lVuelos.eliminar_destino(lDestinacion_vuelos[1])
+    lVuelos.eliminar_destino("Metropolis")
+    lVuelos.eliminar_destino("Dinamarcia")
 
     # resultado esperado
     lDestinacion_vuelos.remove("Metropolis")
@@ -180,23 +174,26 @@ def Test_viaje_eliminar_vuelos() -> None:
     print("Test_viaje_eliminar_vuelos ok")
 
 
-def Test_precio_viaje_esperado_eliminar_destinos() -> None:
-    importe = 0
-    num_pasajeros = 3
-    datosPago = PaymentData("VISA", nombres[0], numTarjeta, cvv, importe)
+def Test_precio_viaje_esperado_eliminar_destinos() -> None: #volveremos
 
+    num_pasajeros = 3
     lPrecios = [30, 30, 30]
-    # se sumna el coste de cada destino en funcion del numero de pasajeos
-    for precioDestino in lPrecios:
-        datosPago.add_coste_destino(precioDestino * num_pasajeros)
+    lDestinacion_vuelos = ["Metropolis", "Dinamarcia", "Suecia"]
+    factura = Factura()
+
+    factura.set_num_pasajeros(num_pasajeros)
+
+    for destino, precio in zip(lDestinacion_vuelos, lPrecios):
+        factura.add_destino(destino, precio)
 
     # se descuetnan 2 destinos
     lPrecios = [30, 0, 0]
-    datosPago.eliminar_importe_destino(30 * num_pasajeros)
-    datosPago.eliminar_importe_destino(30 * num_pasajeros)
-
     importeEsperado = sum(lPrecios) * num_pasajeros
-    assert datosPago.get_importe() == importeEsperado
+
+    factura.eliminar_destino("Dinamarcia")
+    factura.eliminar_destino("Suecia")
+
+    assert factura.get_total() == importeEsperado
 
     print("Test_precio_viaje_esperado_eliminar_destinos")
 
@@ -206,7 +203,7 @@ def Test_pago_correcto() -> None:
 
     lDestinacion_vuelos = ["Metropolis", "Dinamarcia", "Suecia"]
     lCodigo_vuelos = [741, 852, 963]
-    num_pasajeros = 3
+
 
     lVuelos = Flights(lCodigo_vuelos, lDestinacion_vuelos, 3)
 

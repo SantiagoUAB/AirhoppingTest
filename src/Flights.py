@@ -26,10 +26,6 @@ class Flights:
     def eliminar_destino(self, destino :str) -> None:
         self.lDestiancions.remove(destino)
 
-
-    def add_new(self, destino:str) -> None:
-        self.lDestiancions.append(destino)
-
     def existen_Destinos(self) -> bool:
         if len(self.lDestiancions) <= 0:
             return False # no existen destinos
