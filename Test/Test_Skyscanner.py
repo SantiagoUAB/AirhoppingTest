@@ -8,12 +8,6 @@ from src.User import User
 from src.Flights import Flights
 from src.Skyscanner import Skyscanner
 from src.PaymentData import PaymentData
-from src.Factura import Factura
-
-
-# from src.User import User
-# from src.Flights import Flights
-# from src.Skyscanner import Skyscanner
 
 
 nombres = ["Ana", "Bernardo", "Ramirez"]
@@ -48,7 +42,7 @@ def test_Viase_Sin_Destinos():
     print("Test_Viase_Sin_Destinos ok")
 
 
-def Test_Viase_Sin_Vuelos():
+def test_Viase_Sin_Vuelos():
 
     lVuelos = Flights()
 
@@ -56,14 +50,14 @@ def Test_Viase_Sin_Vuelos():
     print("Test_Viase_Sin_Vuelos ok")
 
 
-def Test_Viaje_Precio_Cero():
+def test_Viaje_Precio_Cero():
     datosPago = PaymentData()
 
     assert datosPago.get_importe() == 0  # coste de viaje 0
     print("Test_Viaje_Precio_Cero ok")
 
 
-def Test_destinos_esperados():
+def test_destinos_esperados():
 
     lDestinacion_vuelos = ["Metropolis", "Dinamarcia", "Suecia"]
     lVuelos = Flights(lDestiancions=lDestinacion_vuelos)
@@ -72,7 +66,7 @@ def Test_destinos_esperados():
     print("Test_destinos_esperados ok")
 
 
-def Test_vuelos_esperados():
+def test_vuelos_esperados():
 
     lCodigo_vuelos = [741, 852, 963]
     lVuelos = Flights(lCodigos=lCodigo_vuelos)
@@ -80,14 +74,7 @@ def Test_vuelos_esperados():
     assert lVuelos.get_vuelos() == lCodigo_vuelos
     print("Test_vuelos_esperados ok ")
 
-
-
-
-
-
-
-
-def Test_viaje_eliminar_destinos() -> None:
+def test_viaje_eliminar_destinos() -> None:
     lDestinacion_vuelos = ["Metropolis", "Dinamarcia", "Suecia"]
 
     num_pasajeros = 3
@@ -112,7 +99,7 @@ def Test_viaje_eliminar_destinos() -> None:
     print("Test_viaje_eliminar_destinos ok")
 
 
-def Test_viaje_eliminar_vuelos() -> None:
+def test_viaje_eliminar_vuelos() -> None:
     lCodigo_vuelos = [741, 852, 963]
 
     num_pasajeros = 3
@@ -136,31 +123,7 @@ def Test_viaje_eliminar_vuelos() -> None:
     print("Test_viaje_eliminar_vuelos ok")
 
 
-def Test_precio_viaje_esperado_eliminar_destinos() -> None: #volveremos
-
-    num_pasajeros = 3
-    lPrecios = [30, 30, 30]
-    lDestinacion_vuelos = ["Metropolis", "Dinamarcia", "Suecia"]
-    factura = Factura()
-
-    factura.set_num_pasajeros(num_pasajeros)
-
-    for destino, precio in zip(lDestinacion_vuelos, lPrecios):
-        factura.add_destino(destino, precio)
-
-    # se descuetnan 2 destinos
-    lPrecios = [30, 0, 0]
-    importeEsperado = sum(lPrecios) * num_pasajeros
-
-    factura.eliminar_destino("Dinamarcia")
-    factura.eliminar_destino("Suecia")
-
-    assert factura.get_total() == importeEsperado
-
-    print("Test_precio_viaje_esperado_eliminar_destinos")
-
-
-def Test_pago_correcto() -> None:
+def test_pago_correcto() -> None:
     user1 = User(nombres[0], apellidos[0], DNI[0])
 
     lDestinacion_vuelos = ["Metropolis", "Dinamarcia", "Suecia"]
@@ -173,8 +136,7 @@ def Test_pago_correcto() -> None:
 
     assert interfazSkyscanner.confirm_reserve(user1, lVuelos) == True
 
-
-def Test_conrimrar_reserva_error():
+def test_conrimrar_reserva_error():
 
 
     with patch('src.Skyscanner') as mock_get:
@@ -183,19 +145,5 @@ def Test_conrimrar_reserva_error():
     print("Test_conrimrar_reserva_error")
 
 
-test_Viaje_Numero_pasajeros()
-test_Viase_Sin_Destinos()
-Test_Viase_Sin_Vuelos()
-Test_Viaje_Precio_Cero()
-Test_destinos_esperados()
-Test_vuelos_esperados()
-
-
-Test_viaje_eliminar_destinos()
-Test_viaje_eliminar_vuelos()
-Test_precio_viaje_esperado_eliminar_destinos()
-
-Test_pago_correcto()
-Test_conrimrar_reserva_error()
 
 print("ok")
